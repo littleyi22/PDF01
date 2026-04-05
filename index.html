@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>奕鈞老師 PDF拆分合併工具 2.1版</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- PDF.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
+
+    <!-- PDF-Lib -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+
+    <!-- JSZip for image zip download -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+    
+    <!-- FileSaver.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    
+    <!-- SortableJS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <!-- Phosphor Icons -->
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <i class="ph-fill ph-file-pdf header-icon"></i>
+                <h1>PDF拆分合併工具</h1>
+            </div>
+            <div class="action-buttons" id="main-actions" style="display: none;">
+                <button class="btn btn-secondary" id="home-btn">
+                    <i class="ph ph-house"></i> 首頁
+                </button>
+                <button class="btn btn-secondary" id="merge-file-btn" onclick="document.getElementById('merge-file-input').click()">
+                    <i class="ph ph-plus-circle"></i> 合併PDF檔
+                </button>
+                <input type="file" id="merge-file-input" accept="application/pdf" style="display: none;" />
+                <button class="btn btn-secondary" id="rotate-selected-btn">
+                    <i class="ph ph-arrows-clockwise"></i> 旋轉選取項目
+                </button>
+                <button class="btn btn-secondary" id="select-all-btn">
+                    <i class="ph ph-check-square-offset"></i> 全選
+                </button>
+                <button class="btn btn-secondary" id="deselect-all-btn">
+                    <i class="ph ph-square"></i> 全取消
+                </button>
+                <button class="btn btn-primary" id="download-pdf-btn">
+                    <i class="ph ph-download-simple"></i> 下載為 PDF
+                </button>
+                <button class="btn btn-primary" id="download-images-btn">
+                    <i class="ph ph-image"></i> 下載圖片
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Upload Area -->
+            <div class="upload-area" id="upload-area">
+                <input type="file" id="file-input" accept="application/pdf" style="display: none;" />
+                <div class="upload-box" id="upload-box">
+                    <i class="ph-light ph-upload-simple upload-icon"></i>
+                    <h2>點擊或拖曳上傳 PDF 檔案</h2>
+                    <p>支援任意 PDF 檔案，將所有頁面預覽呈現！</p>
+                    <button class="btn btn-upload" onclick="document.getElementById('file-input').click()">選擇檔案</button>
+                </div>
+            </div>
+
+            <!-- Loading Indicator -->
+            <div id="loading" class="loading-overlay" style="display: none;">
+                <i class="ph ph-spinner-gap spinner"></i>
+                <p id="loading-text">載入中，請稍候...</p>
+            </div>
+
+            <!-- Previews -->
+            <div id="instruction-bar" style="display: none; margin-bottom: 1rem; padding: 0.5rem; background-color: var(--secondary-color); color: var(--primary-hover); border-radius: 8px; text-align: center; font-weight: bold;">
+                <i class="ph ph-info"></i> 提示：拖曳頁面可更改順序。
+            </div>
+            <div class="pages-grid" id="pages-grid">
+                <!-- Pages will be generated here by JS -->
+            </div>
+        </main>
+
+        <!-- Image Preview Modal -->
+        <div id="preview-modal" class="modal" style="display: none;">
+            <span class="close-modal">&times;</span>
+            <img class="modal-content" id="modal-img">
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <p>© 2026 奕鈞老師版權所有 | <span class="version">版本2.1</span></p>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Scripts -->
+    <script src="js/main.js"></script>
+</body>
+</html>
