@@ -112,15 +112,20 @@
                     </ul>
                     <button class="btn btn-upload" onclick="document.getElementById('file-input').click()">選擇檔案</button>
                 </div>
-                <!-- 首頁版權與隱私聲明 -->
-                <div style="margin-top: 20px; padding: 15px; border-radius: 8px; background-color: rgba(15, 23, 42, 0.4); border: 1px solid rgba(14, 165, 233, 0.15); font-size: 0.85rem; color: #94a3b8; text-align: center; line-height: 1.7; max-width: 600px;">
-                    <div style="color: var(--primary-color); font-weight: bold; margin-bottom: 6px;">
-                        &copy; 2026 奕鈞老師製作 | PDF萬用工具
-                        <span style="display: inline-block; margin-left: 8px; background: rgba(14, 165, 233, 0.2); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">v3.1</span>
-                    </div>
-                    <div style="display: flex; align-items: flex-start; justify-content: center; gap: 6px; text-align: left;">
-                        <i class="ph-fill ph-shield-check" style="color: var(--success-color); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
-                        <span><strong>安全與隱私承諾：</strong>本工具所有的 PDF 處理皆於您的電腦「本地端」執行，絕不會上傳至任何雲端伺服器，處理速度完全取決於您的硬體效能。創作者保證絕不蒐集或存取您的任何機密資料，請安心使用。</span>
+                <!-- LOGO 與版權隱私聲明 -->
+                <div style="margin-top: 20px; max-width: 600px; text-align: center;">
+                    <a href="https://www.facebook.com/profile.php?id=61584090122881" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-bottom: 12px;">
+                        <img src="img/logo.png" alt="奕鈞老師" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px rgba(14,165,233,0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                    </a>
+                    <div style="padding: 15px; border-radius: 8px; background-color: rgba(15, 23, 42, 0.4); border: 1px solid rgba(14, 165, 233, 0.15); font-size: 0.85rem; color: #94a3b8; line-height: 1.7;">
+                        <div style="color: var(--primary-color); font-weight: bold; margin-bottom: 6px;">
+                            &copy; 2026 奕鈞老師製作 | PDF萬用工具
+                            <span style="display: inline-block; margin-left: 8px; background: rgba(14, 165, 233, 0.2); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">v3.1</span>
+                        </div>
+                        <div style="display: flex; align-items: flex-start; justify-content: center; gap: 6px; text-align: left;">
+                            <i class="ph-fill ph-shield-check" style="color: var(--success-color); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
+                            <span><strong>安全與隱私承諾：</strong>本工具所有的 PDF 處理皆於您的電腦「本地端」執行，絕不會上傳至任何雲端伺服器，處理速度完全取決於您的硬體效能。創作者保證絕不蒐集或存取您的任何機密資料，請安心使用。</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -146,17 +151,7 @@
             <img class="modal-content" id="modal-img">
         </div>
 
-        <!-- Footer -->
-        <footer class="footer">
-            <div class="footer-content">
-                <span>&copy; 2026 奕鈞老師製作 | PDF萬用工具</span>
-                <span class="version">v3.1</span>
-            </div>
-            <div style="margin-top: 10px; font-size: 0.85rem; color: #94a3b8; display: flex; align-items: center; justify-content: center; gap: 6px; padding: 0 1rem;">
-                <i class="ph-fill ph-shield-check" style="color: var(--success-color); font-size: 1.1rem;"></i>
-                <span><strong>安全與隱私承諾：</strong>本工具所有的 PDF 處理皆於您的電腦「本地端」執行，絕不會上傳至任何雲端伺服器，處理速度完全取決於您的硬體效能。創作者保證絕不蒐集或存取您的任何機密資料，請安心使用。</span>
-            </div>
-        </footer>
+
     </div>
     
     <!-- Scripts -->
