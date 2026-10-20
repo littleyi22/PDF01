@@ -1,160 +1,28 @@
-<!DOCTYPE html>
-<html lang="zh-TW">
+<!doctype html>
+<html lang="zh-Hant">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF萬用工具 v3.1 | 奕鈞老師製作</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/styles.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
-    
-    <!-- PDF.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-    <script>pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';</script>
-
-    <!-- PDF-Lib -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
-
-    <!-- JSZip for image zip download -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    
-    <!-- FileSaver.js -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
-    
-    <!-- SortableJS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-
-    <!-- Phosphor Icons -->
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="網站搬家通知，請前往奕鈞老師數位教學備課室。">
+<meta name="ijun-relocation" content="ijun-github-relocation-20261021">
+<link rel="canonical" href="https://www.ijun-ai.com/">
+<title>網站搬家通知｜奕鈞老師</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;min-height:100svh;display:grid;place-items:center;padding:28px 18px;background:#fff9ee;color:#332a20;font-family:"Microsoft JhengHei","Noto Sans TC",system-ui,sans-serif;line-height:1.8}
+main{width:100%;max-width:640px;padding:48px 36px;background:#fff;border:1px solid #f0dbb7;border-top:7px solid #f6aa24;border-radius:22px;box-shadow:0 16px 50px #8b5c1710;text-align:center}
+.brand{margin:0;color:#985506;font-weight:700;letter-spacing:.08em;font-size:14px}.icon{font-size:52px;margin:16px 0 8px}h1{font-size:34px;line-height:1.4;margin:12px 0 18px}p{margin:12px 0}.original{color:#796e60;font-size:14px;overflow-wrap:anywhere}.button{display:inline-block;margin:18px 0 12px;padding:14px 28px;background:#f5a51b;color:#332100;border-radius:12px;font-size:18px;font-weight:700;text-decoration:none}.button:hover{background:#ffc35a}.button:focus-visible{outline:3px solid #654016;outline-offset:5px}.url{color:#925208;overflow-wrap:anywhere;font-size:15px}footer{margin-top:24px;padding-top:20px;border-top:1px solid #f0e7db;color:#857667;font-size:13px}@media(max-width:480px){main{padding:34px 22px}h1{font-size:29px}}
+</style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- Header -->
-        <header class="header">
-            <div class="header-content">
-                <i class="ph-fill ph-file-pdf header-icon"></i>
-                <h1>PDF萬用工具</h1>
-            </div>
-            <div class="action-buttons" id="main-actions" style="display: none;">
-                <button class="btn btn-secondary" id="home-btn">
-                    <i class="ph ph-house"></i> 首頁
-                </button>
-                <button class="btn btn-secondary" id="merge-file-btn" onclick="document.getElementById('merge-file-input').click()">
-                    <i class="ph ph-plus-circle"></i> 合併PDF檔
-                </button>
-                <input type="file" id="merge-file-input" accept="application/pdf" style="display: none;" />
-                <button class="btn btn-secondary" id="rotate-selected-btn">
-                    <i class="ph ph-arrows-clockwise"></i> 旋轉選取項目
-                </button>
-                <button class="btn btn-secondary" id="select-all-btn">
-                    <i class="ph ph-check-square-offset"></i> 全選
-                </button>
-                <button class="btn btn-secondary" id="deselect-all-btn">
-                    <i class="ph ph-square"></i> 全取消
-                </button>
-                <button class="btn btn-primary" id="download-pdf-btn">
-                    <i class="ph ph-download-simple"></i> 下載為 PDF
-                </button>
-                <button class="btn btn-primary" id="download-images-btn">
-                    <i class="ph ph-image"></i> 下載成圖片
-                </button>
-            </div>
-        </header>
-
-        <!-- Advanced Panel -->
-        <div class="advanced-panel" id="advanced-panel" style="display: none;">
-            <div class="advanced-panel-header" id="advanced-panel-toggle">
-                <span><i class="ph ph-magic-wand"></i> 進階功能</span>
-                <i class="ph ph-caret-down" id="advanced-panel-icon"></i>
-            </div>
-            <div class="advanced-panel-content" id="advanced-panel-content">
-                <div class="advanced-tools-grid">
-                    <div class="tool-group thumbnail-slider-group">
-                        <label><i class="ph ph-magnifying-glass"></i> 縮圖大小</label>
-                        <input type="range" id="thumbnail-size-slider" min="100" max="300" value="200" step="10">
-                    </div>
-                    <button class="btn btn-secondary" id="download-compressed-btn" title="轉為圖片並壓縮以減小檔案體積 (註: 壓縮後文字將無法選取)">
-                        <i class="ph ph-file-zip"></i> 壓縮 PDF
-                    </button>
-                    <button class="btn btn-secondary" id="watermark-btn">
-                        <i class="ph ph-text-t"></i> 加入浮水印
-                    </button>
-                    <button class="btn btn-secondary" id="page-num-btn">
-                        <i class="ph ph-list-numbers"></i> 加入頁碼
-                    </button>
-                    <button class="btn btn-secondary" id="split-pdf-btn">
-                        <i class="ph ph-files"></i> 單頁拆分打包
-                    </button>
-                    <button class="btn btn-secondary" id="grayscale-pdf-btn" title="將 PDF 轉為高解析度灰階圖片，適合列印">
-                        <i class="ph ph-drop-half-bottom"></i> 灰階黑白轉換
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <main class="main-content">
-            <!-- Upload Area -->
-            <div class="upload-area" id="upload-area">
-                <input type="file" id="file-input" accept="application/pdf" style="display: none;" />
-                <div class="upload-box" id="upload-box">
-                    <i class="ph-light ph-upload-simple upload-icon"></i>
-                    <h2>點擊或拖曳上傳 PDF 檔案</h2>
-                    <ul class="features-list">
-                        <li><i class="ph-fill ph-check-circle" style="color:var(--success-color)"></i> 無限制合併多份 PDF，自由拖曳排序</li>
-                        <li><i class="ph-fill ph-check-circle" style="color:var(--success-color)"></i> 自訂壓縮畫質，大幅減小檔案體積</li>
-                        <li><i class="ph-fill ph-check-circle" style="color:var(--success-color)"></i> 支援浮水印、自動頁碼、單頁拆分打包</li>
-                        <li><i class="ph-fill ph-check-circle" style="color:var(--success-color)"></i> 一鍵轉換高畫質灰階，列印省墨最實用</li>
-                    </ul>
-                    <button class="btn btn-upload" onclick="document.getElementById('file-input').click()">選擇檔案</button>
-                </div>
-                <!-- LOGO 與版權隱私聲明 -->
-                <div style="margin-top: 20px; max-width: 600px; text-align: center;">
-                    <a href="https://www.facebook.com/profile.php?id=61584090122881" target="_blank" rel="noopener noreferrer" style="display: inline-block; margin-bottom: 12px;">
-                        <img src="img/logo.png" alt="奕鈞老師" style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 2px solid var(--primary-color); transition: transform 0.3s, box-shadow 0.3s;" onmouseover="this.style.transform='scale(1.1)'; this.style.boxShadow='0 0 15px rgba(14,165,233,0.5)';" onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
-                    </a>
-                    <div style="padding: 15px; border-radius: 8px; background-color: rgba(15, 23, 42, 0.4); border: 1px solid rgba(14, 165, 233, 0.15); font-size: 0.85rem; color: #94a3b8; line-height: 1.7;">
-                        <div style="color: var(--primary-color); font-weight: bold; margin-bottom: 6px;">
-                            &copy; 2026 奕鈞老師製作 | PDF萬用工具
-                            <span style="display: inline-block; margin-left: 8px; background: rgba(14, 165, 233, 0.2); padding: 2px 8px; border-radius: 4px; font-size: 0.8rem;">v3.1</span>
-                        </div>
-                        <div style="display: flex; align-items: flex-start; justify-content: center; gap: 6px; text-align: left;">
-                            <i class="ph-fill ph-shield-check" style="color: var(--success-color); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0;"></i>
-                            <span><strong>安全與隱私承諾：</strong>本工具所有的 PDF 處理皆於您的電腦「本地端」執行，絕不會上傳至任何雲端伺服器，處理速度完全取決於您的硬體效能。創作者保證絕不蒐集或存取您的任何機密資料，請安心使用。</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Loading Indicator -->
-            <div id="loading" class="loading-overlay" style="display: none;">
-                <i class="ph ph-spinner-gap spinner"></i>
-                <p id="loading-text">載入中，請稍候...</p>
-            </div>
-
-            <!-- Previews -->
-            <div id="instruction-bar" style="display: none; margin-bottom: 1rem; padding: 0.5rem; background-color: var(--secondary-color); color: var(--primary-hover); border-radius: 8px; text-align: center; font-weight: bold;">
-                <i class="ph ph-info"></i> 提示：拖曳頁面可更改順序。
-            </div>
-            <div class="pages-grid" id="pages-grid">
-                <!-- Pages will be generated here by JS -->
-            </div>
-        </main>
-
-        <!-- Image Preview Modal -->
-        <div id="preview-modal" class="modal" style="display: none;">
-            <span class="close-modal">&times;</span>
-            <img class="modal-content" id="modal-img">
-        </div>
-
-
-    </div>
-    
-    <!-- Scripts -->
-    <script src="js/main.js"></script>
+<main>
+<p class="brand">奕鈞老師數位教學備課室</p>
+<div class="icon" aria-hidden="true">🏠</div>
+<h1>網站搬家囉！</h1>
+<p>請前往新網站，瀏覽最新的教學工具與教材。</p>
+<p class="original">原網站：PDF萬用工具 v3.1 | 奕鈞老師製作</p>
+<a class="button" href="https://www.ijun-ai.com/">前往新網站 →</a>
+<p><a class="url" href="https://www.ijun-ai.com/">https://www.ijun-ai.com/</a></p>
+<footer>感謝您的支持與使用。</footer>
+</main>
 </body>
 </html>
